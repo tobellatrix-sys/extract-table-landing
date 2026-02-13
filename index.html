@@ -4,15 +4,62 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Extract Table from Site — Export HTML Tables to Excel, CSV &amp; More</title>
-  <meta name="description" content="Extract and export HTML tables from any website. One-click table extractor to Excel, CSV, Markdown, JSON and clipboard. Works on any site in 52 languages.">
-  <meta name="keywords" content="table extractor, HTML table to Excel, copy table from website, export table to CSV, Chrome extension, extract table">
-  <meta property="og:title" content="Extract Table from Site — Export HTML Tables to Excel, CSV &amp; More">
-  <meta property="og:description" content="One-click Chrome extension to extract and export HTML tables from any website to Excel, CSV, Markdown, and JSON.">
+  <meta name="description" content="Extract table from site with one click. Convert HTML to Excel, HTML to CSV, Markdown and JSON instantly. Free Chrome extension — table capture, web table extractor and instant data scraper for any website.">
+  <meta name="keywords" content="extract table from site, table extractor, HTML table to Excel, html to csv, html to excel, copy table from website, export table to CSV, Chrome extension extract data, table capture, web table extractor, instant data scraper, scrape table from website, download table from site, how to download csv file from website, extract data from website to excel, copy as markdown">
+  <meta property="og:title" content="Extract Table from Site — Convert HTML Tables to Excel, CSV &amp; More">
+  <meta property="og:description" content="Free Chrome extension to extract table from site. Convert HTML to Excel, HTML to CSV, Markdown and JSON. One-click table capture and instant data scraper.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://extract-table.com">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Extract Table from Site — Export HTML Tables to Excel, CSV &amp; More">
-  <meta name="twitter:description" content="One-click Chrome extension to extract and export HTML tables from any website.">
+  <meta name="twitter:description" content="Free Chrome extension to extract table from site. Convert HTML to Excel, CSV, Markdown and JSON instantly.">
+  <link rel="canonical" href="https://extract-table.netlify.app">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Extract Table from Site",
+    "description": "Chrome extension to extract tables from any website and export to Excel, CSV, Markdown, JSON or clipboard.",
+    "applicationCategory": "BrowserApplication",
+    "operatingSystem": "Chrome",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5.0", "ratingCount": "500", "bestRating": "5" },
+    "installUrl": "https://chromewebstore.google.com/detail/extract-table-from-site/laahlomblciggpbmjdlkkpddediogcal"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do I extract a table from a website?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Install the Extract Table from Site Chrome extension, navigate to any webpage with a table, click the extension icon, and export to Excel, CSV, Markdown, JSON, or clipboard with one click." }
+      },
+      {
+        "@type": "Question",
+        "name": "How to download a CSV file from a website?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Open the page containing the table, click the Extract Table extension icon, select the table you need, and choose CSV as the export format. The file downloads instantly." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I convert HTML tables to Excel?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. The extension converts HTML to Excel (.xlsx) with one click. It preserves table structure and formatting. No additional software needed." }
+      },
+      {
+        "@type": "Question",
+        "name": "Does it work on any website?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. The web table extractor works on any site — Wikipedia, financial portals, government databases, sports statistics, and more. If the page has an HTML table, the extension can extract it." }
+      },
+      {
+        "@type": "Question",
+        "name": "How to copy a table as Markdown?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Click the extension icon, select the table, and choose Copy as Markdown. The table is copied to your clipboard in Markdown format, ready to paste into documentation, GitHub READMEs, or any Markdown editor." }
+      }
+    ]
+  }
+  </script>
   <style>
     *, *::before, *::after {
       box-sizing: border-box;
@@ -519,6 +566,83 @@
       font-weight: 500;
     }
 
+    /* ---- USE CASES ---- */
+    .usecases-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .usecase {
+      padding: 24px 20px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .usecase:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .usecase h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .usecase p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ---- FAQ ---- */
+    .faq-list {
+      max-width: 720px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-item summary {
+      padding: 20px 0;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .faq-item summary::-webkit-details-marker { display: none; }
+
+    .faq-item summary::after {
+      content: "+";
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      flex-shrink: 0;
+      transition: transform 0.2s;
+    }
+
+    .faq-item[open] summary::after {
+      transform: rotate(45deg);
+    }
+
+    .faq-item .faq-answer {
+      padding: 0 0 20px;
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
     /* ---- CTA BOTTOM ---- */
     .cta-section {
       text-align: center;
@@ -630,7 +754,7 @@
   <header class="hero">
     <div class="hero-inner">
       <h1>Extract any <span>table</span> from any website</h1>
-      <p>One-click Chrome extension to copy HTML tables and export to Excel, CSV, Markdown, or JSON.</p>
+      <p>One-click table capture Chrome extension. Convert HTML to Excel, HTML to CSV, Markdown, or JSON — instant data scraper for any site.</p>
       <a href="https://chromewebstore.google.com/detail/extract-table-from-site/laahlomblciggpbmjdlkkpddediogcal" class="cta-btn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><circle cx="12" cy="12" r="4"/><path d="M21.17 8H12"/><path d="M3.95 6.06 8.54 14"/><path d="M10.88 21.94 15.46 14"/></svg>
         Install Free from Chrome Web Store
@@ -679,22 +803,22 @@
             <div class="feature-icon blue">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 15l-2 5L9 9l11 4-5 2z"/><path d="M22 2L15 15"/></svg>
             </div>
-            <h3>One-Click Extraction</h3>
-            <p>Click the extension icon and instantly see all tables on the page, ready to export.</p>
+            <h3>One-Click Table Capture</h3>
+            <p>Click the extension icon to instantly detect and extract all tables on the page. Our table scraper handles even complex HTML structures.</p>
           </div>
           <div class="feature-card reveal">
             <div class="feature-icon green">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
             </div>
-            <h3>Multiple Formats</h3>
-            <p>Export to Excel (.xlsx), CSV, Markdown, JSON — whatever format your workflow needs.</p>
+            <h3>HTML to Excel, CSV &amp; More</h3>
+            <p>Convert HTML to Excel (.xlsx), HTML to CSV, Markdown, or JSON. Export website tables in whatever format your workflow needs.</p>
           </div>
           <div class="feature-card reveal">
             <div class="feature-icon orange">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
             </div>
-            <h3>Works on Any Site</h3>
-            <p>Wikipedia, financial sites, government data — if there's a table, we can extract it.</p>
+            <h3>Web Table Extractor for Any Site</h3>
+            <p>Scrape tables from Wikipedia, financial sites, government data portals, and more. If there's an HTML table, this Chrome extension can extract data from it.</p>
           </div>
         </div>
       </div>
@@ -787,6 +911,71 @@
             <div class="proof-value">52</div>
             <div class="proof-label">Languages supported</div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Use Cases -->
+    <section id="use-cases" class="section-alt">
+      <div class="section-inner text-center">
+        <p class="section-label">Use Cases</p>
+        <h2 class="section-title">Extract data from website to Excel, CSV and more</h2>
+        <p class="section-desc">Whether you need to scrape tables from websites for analysis or convert HTML to CSV for a report, this Chrome extension handles it.</p>
+        <div class="usecases-grid">
+          <div class="usecase reveal">
+            <h3>Data Analysis</h3>
+            <p>Extract table from site and import into Excel or CSV for research. Scrape data from website to CSV in seconds.</p>
+          </div>
+          <div class="usecase reveal">
+            <h3>Business Reporting</h3>
+            <p>Download table from site and convert HTML to Excel for quarterly reports. No manual copy-paste needed.</p>
+          </div>
+          <div class="usecase reveal">
+            <h3>Data Migration</h3>
+            <p>Use this Chrome extension to extract data and transfer records between systems. Export website to CSV files instantly.</p>
+          </div>
+          <div class="usecase reveal">
+            <h3>Academic Research</h3>
+            <p>Our web table extractor captures data from Wikipedia, government databases, and scientific portals with one click.</p>
+          </div>
+          <div class="usecase reveal">
+            <h3>Documentation</h3>
+            <p>Copy as Markdown to paste tables directly into GitHub READMEs, Notion pages, or any documentation tool.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq">
+      <div class="section-inner text-center">
+        <p class="section-label">FAQ</p>
+        <h2 class="section-title">Frequently asked questions</h2>
+        <div class="faq-list">
+          <details class="faq-item reveal">
+            <summary>How do I extract a table from a website?</summary>
+            <div class="faq-answer">Install the free Extract Table from Site extension from the Chrome Web Store. Navigate to any webpage that contains an HTML table, click the extension icon in your toolbar, and all tables on the page are detected automatically. Choose the one you need and export to Excel, CSV, Markdown, JSON, or clipboard.</div>
+          </details>
+          <details class="faq-item reveal">
+            <summary>How to download a CSV file from a website?</summary>
+            <div class="faq-answer">Open the page containing the table you need. Click the Extract Table icon, select the table, and choose CSV as the export format. The HTML to CSV conversion happens instantly and the file downloads to your computer. No additional software or configuration needed.</div>
+          </details>
+          <details class="faq-item reveal">
+            <summary>Can I convert HTML tables to Excel?</summary>
+            <div class="faq-answer">Yes. This extension converts HTML to Excel (.xlsx) with one click. The table structure, headers, and formatting are preserved. It works as a complete extract data from website to Excel Chrome extension — just click and download.</div>
+          </details>
+          <details class="faq-item reveal">
+            <summary>Does the table extractor work on any website?</summary>
+            <div class="faq-answer">Yes. The web table extractor works on any site with standard HTML tables — Wikipedia, financial portals, government open data, sports statistics sites, e-commerce product listings, and more. If the page has a table element, the extension can scrape and extract it.</div>
+          </details>
+          <details class="faq-item reveal">
+            <summary>How to copy a table as Markdown?</summary>
+            <div class="faq-answer">Click the extension icon, select the table you want, and choose Copy as Markdown. The table is copied to your clipboard in proper Markdown table format, ready to paste into GitHub issues, READMEs, Notion, or any Markdown editor.</div>
+          </details>
+          <details class="faq-item reveal">
+            <summary>Is this an instant data scraper?</summary>
+            <div class="faq-answer">Yes. The extension acts as an instant data scraper for HTML tables. Click the icon, see all tables on the page immediately, and export in your preferred format. No configuration, no scripting, no learning curve. Table capture is truly one click.</div>
+          </details>
         </div>
       </div>
     </section>
