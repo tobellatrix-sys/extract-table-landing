@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Extract Table from Site — Export HTML Tables to Excel, CSV &amp; More</title>
+  <meta name="description" content="Extract and export HTML tables from any website. One-click table extractor to Excel, CSV, Markdown, JSON and clipboard. Works on any site in 52 languages.">
+  <meta name="keywords" content="table extractor, HTML table to Excel, copy table from website, export table to CSV, Chrome extension, extract table">
+  <meta property="og:title" content="Extract Table from Site — Export HTML Tables to Excel, CSV &amp; More">
+  <meta property="og:description" content="One-click Chrome extension to extract and export HTML tables from any website to Excel, CSV, Markdown, and JSON.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://extract-table.com">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Extract Table from Site — Export HTML Tables to Excel, CSV &amp; More">
+  <meta name="twitter:description" content="One-click Chrome extension to extract and export HTML tables from any website.">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --primary: #4285f4;
+      --primary-dark: #3367d6;
+      --primary-light: #e8f0fe;
+      --text: #202124;
+      --text-secondary: #5f6368;
+      --bg: #ffffff;
+      --bg-alt: #f8f9fa;
+      --border: #e0e0e0;
+      --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-lg: 0 10px 25px rgba(0,0,0,0.1), 0 4px 10px rgba(0,0,0,0.05);
+      --radius: 12px;
+      --max-width: 1100px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---- NAV ---- */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      z-index: 100;
+      padding: 0 24px;
+    }
+
+    .nav-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+    }
+
+    .nav-brand {
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-icon {
+      width: 28px;
+      height: 28px;
+      background: var(--primary);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .nav-cta {
+      background: var(--primary);
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .nav-cta:hover {
+      background: var(--primary-dark);
+    }
+
+    /* ---- HERO ---- */
+    .hero {
+      padding: 120px 24px 80px;
+      text-align: center;
+      background: linear-gradient(180deg, var(--primary-light) 0%, var(--bg) 100%);
+    }
+
+    .hero-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 18px;
+      color: var(--text);
+    }
+
+    .hero h1 span {
+      color: var(--primary);
+    }
+
+    .hero p {
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: var(--text-secondary);
+      max-width: 560px;
+      margin: 0 auto 32px;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--primary);
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: 700;
+      transition: background 0.2s, transform 0.15s;
+      box-shadow: 0 4px 14px rgba(66,133,244,0.35);
+    }
+
+    .cta-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .cta-btn svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .cta-sub {
+      margin-top: 12px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    /* Browser mockup */
+    .browser-mockup {
+      max-width: 700px;
+      margin: 48px auto 0;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      animation: fadeSlideUp 0.8s ease-out both;
+    }
+
+    .browser-bar {
+      background: #f1f3f4;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .browser-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ddd;
+    }
+
+    .browser-dot:nth-child(1) { background: #ff5f57; }
+    .browser-dot:nth-child(2) { background: #ffbd2e; }
+    .browser-dot:nth-child(3) { background: #28c840; }
+
+    .browser-address {
+      flex: 1;
+      background: #fff;
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-left: 8px;
+    }
+
+    .browser-body {
+      background: #fff;
+      padding: 24px;
+      min-height: 220px;
+      position: relative;
+    }
+
+    /* Fake table inside mockup */
+    .mock-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    .mock-table th, .mock-table td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .mock-table th {
+      background: var(--bg-alt);
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .mock-table tr:last-child td { border-bottom: none; }
+
+    /* Highlight overlay on table */
+    .mock-highlight {
+      position: absolute;
+      inset: 16px;
+      border: 2px solid var(--primary);
+      border-radius: 8px;
+      background: rgba(66,133,244,0.06);
+      pointer-events: none;
+      animation: pulse-border 2s ease-in-out infinite;
+    }
+
+    .mock-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    @keyframes pulse-border {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---- SECTIONS ---- */
+    section {
+      padding: 80px 24px;
+    }
+
+    .section-alt {
+      background: var(--bg-alt);
+    }
+
+    .section-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--primary);
+      margin-bottom: 8px;
+    }
+
+    .section-title {
+      font-size: clamp(26px, 4vw, 36px);
+      font-weight: 800;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+
+    .section-desc {
+      font-size: 17px;
+      color: var(--text-secondary);
+      max-width: 560px;
+      margin-bottom: 48px;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .text-center .section-desc {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ---- FEATURES ---- */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 24px;
+    }
+
+    .feature-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      font-size: 22px;
+    }
+
+    .feature-icon.blue { background: #e8f0fe; color: #4285f4; }
+    .feature-icon.green { background: #e6f4ea; color: #34a853; }
+    .feature-icon.orange { background: #fef7e0; color: #ea8600; }
+    .feature-icon.purple { background: #f3e8fd; color: #9334e6; }
+
+    .feature-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .feature-card p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ---- HOW IT WORKS ---- */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 32px;
+      position: relative;
+    }
+
+    .step {
+      text-align: center;
+      position: relative;
+    }
+
+    .step-num {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      font-size: 22px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+    }
+
+    .step h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .step p {
+      font-size: 15px;
+      color: var(--text-secondary);
+      max-width: 260px;
+      margin: 0 auto;
+    }
+
+    .step-connector {
+      display: none;
+    }
+
+    @media (min-width: 700px) {
+      .step-connector {
+        display: block;
+        position: absolute;
+        top: 28px;
+        right: -16px;
+        width: 32px;
+        height: 2px;
+        background: var(--border);
+      }
+
+      .step-connector::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        top: -4px;
+        width: 0;
+        height: 0;
+        border-left: 8px solid var(--border);
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+      }
+    }
+
+    /* ---- FORMATS ---- */
+    .formats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+    }
+
+    .format-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 20px;
+      text-align: center;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .format-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .format-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .format-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .format-card p {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    /* Format-specific icon colors using CSS shapes */
+    .fmt-excel { color: #217346; }
+    .fmt-csv { color: #ea8600; }
+    .fmt-md { color: #333; }
+    .fmt-clip { color: #4285f4; }
+
+    /* ---- SOCIAL PROOF ---- */
+    .proof-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      text-align: center;
+    }
+
+    .proof-item {
+      padding: 32px 20px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .proof-value {
+      font-size: clamp(32px, 5vw, 42px);
+      font-weight: 800;
+      color: var(--primary);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .proof-stars {
+      color: #fbbc04;
+      font-size: 20px;
+      letter-spacing: 2px;
+      margin-bottom: 4px;
+    }
+
+    .proof-label {
+      font-size: 15px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* ---- CTA BOTTOM ---- */
+    .cta-section {
+      text-align: center;
+      background: linear-gradient(180deg, var(--bg) 0%, var(--primary-light) 100%);
+    }
+
+    .cta-section .section-title {
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      padding: 32px 24px;
+      border-top: 1px solid var(--border);
+      background: var(--bg-alt);
+    }
+
+    .footer-inner {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary);
+    }
+
+    /* ---- SCROLL ANIMATIONS ---- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 600px) {
+      section {
+        padding: 56px 16px;
+      }
+
+      .hero {
+        padding: 96px 16px 56px;
+      }
+
+      .browser-mockup {
+        margin-top: 32px;
+      }
+
+      .browser-body {
+        padding: 16px;
+        overflow-x: auto;
+      }
+
+      .features-grid, .formats-grid, .proof-grid, .steps {
+        gap: 16px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .footer-links {
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="nav-brand">
+        <div class="nav-icon">T</div>
+        Extract Table
+      </a>
+      <a href="https://chromewebstore.google.com/detail/extract-table-from-site/gkfnlbjgikmhfhbclgidgebgpelmhbco" class="nav-cta">Add to Chrome</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="hero-inner">
+      <h1>Extract any <span>table</span> from any website</h1>
+      <p>One-click Chrome extension to copy HTML tables and export to Excel, CSV, Markdown, or JSON.</p>
+      <a href="https://chromewebstore.google.com/detail/extract-table-from-site/gkfnlbjgikmhfhbclgidgebgpelmhbco" class="cta-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><circle cx="12" cy="12" r="4"/><path d="M21.17 8H12"/><path d="M3.95 6.06 8.54 14"/><path d="M10.88 21.94 15.46 14"/></svg>
+        Install Free from Chrome Web Store
+      </a>
+      <p class="cta-sub">Free &middot; No sign-up required &middot; Works instantly</p>
+
+      <!-- Browser mockup -->
+      <div class="browser-mockup">
+        <div class="browser-bar">
+          <div class="browser-dot"></div>
+          <div class="browser-dot"></div>
+          <div class="browser-dot"></div>
+          <div class="browser-address">example.com/data/quarterly-report</div>
+        </div>
+        <div class="browser-body">
+          <table class="mock-table">
+            <thead>
+              <tr><th>Quarter</th><th>Revenue</th><th>Growth</th><th>Profit</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Q1 2025</td><td>$2.4M</td><td>+12%</td><td>$480K</td></tr>
+              <tr><td>Q2 2025</td><td>$2.9M</td><td>+21%</td><td>$610K</td></tr>
+              <tr><td>Q3 2025</td><td>$3.1M</td><td>+7%</td><td>$590K</td></tr>
+              <tr><td>Q4 2025</td><td>$3.8M</td><td>+23%</td><td>$820K</td></tr>
+            </tbody>
+          </table>
+          <div class="mock-highlight"></div>
+          <div class="mock-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Extract
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Features -->
+    <section id="features" class="section-alt">
+      <div class="section-inner text-center">
+        <p class="section-label">Features</p>
+        <h2 class="section-title">Everything you need to extract tables</h2>
+        <p class="section-desc">No complicated setup. Just click and export any HTML table you find on the web.</p>
+        <div class="features-grid">
+          <div class="feature-card reveal">
+            <div class="feature-icon blue">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 15l-2 5L9 9l11 4-5 2z"/><path d="M22 2L15 15"/></svg>
+            </div>
+            <h3>One-Click Extraction</h3>
+            <p>Click the extension icon and instantly see all tables on the page, ready to export.</p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon green">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+            </div>
+            <h3>Multiple Formats</h3>
+            <p>Export to Excel (.xlsx), CSV, Markdown, JSON — whatever format your workflow needs.</p>
+          </div>
+          <div class="feature-card reveal">
+            <div class="feature-icon orange">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <h3>Works on Any Site</h3>
+            <p>Wikipedia, financial sites, government data — if there's a table, we can extract it.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section id="how-it-works">
+      <div class="section-inner text-center">
+        <p class="section-label">How It Works</p>
+        <h2 class="section-title">Three steps. That's it.</h2>
+        <p class="section-desc">No configuration, no accounts, no learning curve.</p>
+        <div class="steps">
+          <div class="step reveal">
+            <div class="step-num">1</div>
+            <h3>Open any page</h3>
+            <p>Navigate to a webpage that contains the table you need.</p>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step reveal">
+            <div class="step-num">2</div>
+            <h3>Click the extension</h3>
+            <p>Click the Extract Table icon in your toolbar. All tables are detected automatically.</p>
+            <div class="step-connector"></div>
+          </div>
+          <div class="step reveal">
+            <div class="step-num">3</div>
+            <h3>Export your table</h3>
+            <p>Choose your format — Excel, CSV, Markdown, JSON, or clipboard.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Export Formats -->
+    <section id="formats" class="section-alt">
+      <div class="section-inner text-center">
+        <p class="section-label">Export Formats</p>
+        <h2 class="section-title">Export to the format you need</h2>
+        <p class="section-desc">Every popular data format is supported out of the box.</p>
+        <div class="formats-grid">
+          <div class="format-card reveal">
+            <span class="format-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#217346" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18M3 9h18M3 15h18"/><path d="M7 6.5l4 5-4 5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <h3>Excel</h3>
+            <p>.xlsx format</p>
+          </div>
+          <div class="format-card reveal">
+            <span class="format-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#ea8600" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><text x="7" y="17" font-size="6" font-weight="700" fill="#ea8600" stroke="none" font-family="sans-serif">CSV</text></svg>
+            </span>
+            <h3>CSV</h3>
+            <p>Comma-separated</p>
+          </div>
+          <div class="format-card reveal">
+            <span class="format-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#333" stroke-width="1.5"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><text x="6" y="17" font-size="5.5" font-weight="700" fill="#333" stroke="none" font-family="sans-serif">MD</text></svg>
+            </span>
+            <h3>Markdown</h3>
+            <p>For docs & READMEs</p>
+          </div>
+          <div class="format-card reveal">
+            <span class="format-icon">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#4285f4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            </span>
+            <h3>Clipboard</h3>
+            <p>Copy & paste anywhere</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section id="proof">
+      <div class="section-inner text-center">
+        <p class="section-label">Trusted by Users</p>
+        <h2 class="section-title">Loved by data people everywhere</h2>
+        <p class="section-desc">Join thousands of researchers, analysts, and developers who save hours every week.</p>
+        <div class="proof-grid">
+          <div class="proof-item reveal">
+            <div class="proof-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+            <div class="proof-value">5.0</div>
+            <div class="proof-label">Chrome Web Store rating</div>
+          </div>
+          <div class="proof-item reveal">
+            <div class="proof-value">500+</div>
+            <div class="proof-label">Active users</div>
+          </div>
+          <div class="proof-item reveal">
+            <div class="proof-value">52</div>
+            <div class="proof-label">Languages supported</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="cta-section">
+      <div class="section-inner text-center">
+        <h2 class="section-title">Start extracting tables in seconds</h2>
+        <p class="section-desc">Free Chrome extension. No account needed. Install and go.</p>
+        <a href="https://chromewebstore.google.com/detail/extract-table-from-site/gkfnlbjgikmhfhbclgidgebgpelmhbco" class="cta-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><circle cx="12" cy="12" r="4"/><path d="M21.17 8H12"/><path d="M3.95 6.06 8.54 14"/><path d="M10.88 21.94 15.46 14"/></svg>
+          Add to Chrome — It's Free
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <span>Extract Table from Site</span>
+      <ul class="footer-links">
+        <li><a href="https://chromewebstore.google.com/detail/extract-table-from-site/gkfnlbjgikmhfhbclgidgebgpelmhbco">Chrome Web Store</a></li>
+        <li><a href="https://sites.google.com/view/nicetab/privacy-policy">Privacy Policy</a></li>
+        <li><a href="mailto:nicetab.extension@gmail.com">Contact</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal animation
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
